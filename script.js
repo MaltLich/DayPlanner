@@ -31,8 +31,37 @@ $(window).on("load", function () {
     }
   }
 
-  renderAppointments();
+  $(".saveBtn").click(function () {
+    appointText = $(this)
+      .parent("div")
+      .children("div")
+      .children("textarea")
+      .val();
+    appointTime = $(this).parent("div").parent().attr("id");
+    appointment = {
+      time: appointTime,
+      details: appointText,
+    };
+    tempArray = JSON.parse(localStorage.getItem("appointments"));
+    if (tempArray === null) {
+      localStorage.setItem(
+        "appointments",
+        JSON.stringify([{ time: appointTime, details: appointText }])
+      );
+    } else {
+      tempArray.push(appointment);
+      localStorage.setItem("appointments", JSON.stringify(tempArray));
+    }
+    $(this)
+      .parent("div")
+      .children("div")
+      .children("textarea")
+      .replaceWith(
+        $("<textarea>" + appointText.addClass("textarea") + "</textarea>")
+      );
+  });
 
+  renderAppointments();
   for (i = 0; i <= 23; i++) {
     CurrentContainer = i;
     if (currentTime == i) {
@@ -58,34 +87,4 @@ $(window).on("load", function () {
         .addClass("future");
     }
   }
-});
-
-$(".saveBtn").click(function () {
-  appointText = $(this)
-    .parent("div")
-    .children("div")
-    .children("textarea")
-    .val();
-  appointTime = $(this).parent("div").parent().attr("id");
-  appointment = {
-    time: appointTime,
-    details: appointText,
-  };
-  tempArray = JSON.parse(localStorage.getItem("appointments"));
-  if (tempArray === null) {
-    localStorage.setItem(
-      "appointments",
-      JSON.stringify([{ time: appointTime, details: appointText }])
-    );
-  } else {
-    tempArray.push(appointment);
-    localStorage.setItem("appointments", JSON.stringify(tempArray));
-  }
-  $(this)
-    .parent("div")
-    .children("div")
-    .children("textarea")
-    .replaceWith(
-      $("<textarea>" + appointText.addClass("textarea") + "</textarea>")
-    );
 });
