@@ -1,11 +1,11 @@
 var appointText = "";
 var appointTime = "";
-var currentDate;
-var currentTime;
 var currentContainer;
 var tempArray = [];
 var storedAppointments;
 var returnedAppointments;
+var currentDate;
+var currentTime;
 
 $(window).on("load", function () {
   currentDate = moment().format("dddd MMM Do YYYY, h:mm a");
